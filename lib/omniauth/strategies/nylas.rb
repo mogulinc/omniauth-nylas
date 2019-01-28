@@ -20,6 +20,14 @@ module OmniAuth
           "provider"   => access_token.params["provider"]
         }
       end
+
+      def authorize_params
+        super.tap do |params|
+          options[:authorize_options].each do |k|
+            params[k] = request.params[k.to_s] unless [nil, ''].include?(request.params[k.to_s])
+          end
+        end
+      end
     end
   end
 end
