@@ -4,6 +4,7 @@ module OmniAuth
   module Strategies
     class Nylas < OmniAuth::Strategies::OAuth2
       option :name, "nylas"
+      option :state_delimiter, nil
 
       option :client_options, {
         :site          => "https://api.nylas.com",
@@ -22,11 +23,20 @@ module OmniAuth
       end
 
       def authorize_params
-        super.tap do |params|
-          options[:authorize_options].each do |k|
-            params[k] = request.params[k.to_s] unless [nil, ''].include?(request.params[k.to_s])
-          end
+        options.authorize_params[:state] = [session["omniauth.state.prefix"], options[:state_delimiter], SecureRandom.hex(24)].compact.join("")
+        params = options.authorize_params.merge(options_for("authorize"))
+        if OmniAuth.config.test_mode
+          @env ||= {}
+          @env["rack.session"] ||= {}
         end
+        session["omniauth.state"] = params[:state]
+        params
+      end
+
+      def callback_phase
+        binding.pry
+        session["omniauth.state.prefix"] = request.params["state"].split(options.state_delimiter).first unless options.state_delimiter.nil?
+        super
       end
     end
   end
