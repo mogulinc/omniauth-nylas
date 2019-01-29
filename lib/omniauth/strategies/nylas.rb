@@ -34,7 +34,6 @@ module OmniAuth
       end
 
       def callback_phase
-        binding.pry
         session["omniauth.state.prefix"] = request.params["state"].split(options.state_delimiter).first unless options.state_delimiter.nil?
         super
       end
