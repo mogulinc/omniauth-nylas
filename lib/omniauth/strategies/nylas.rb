@@ -11,6 +11,8 @@ module OmniAuth
         :token_url     => "/oauth/token"
       }
 
+      option :authorize_options, [:scope]
+
       uid { access_token.params["account_id"] }
 
       info do
