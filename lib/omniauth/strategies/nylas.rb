@@ -11,7 +11,7 @@ module OmniAuth
         :token_url     => "/oauth/token"
       }
 
-      option :authorize_options, [:scope]
+      option :authorize_options, [:scopes]
 
       uid { access_token.params["account_id"] }
 
@@ -23,11 +23,11 @@ module OmniAuth
         }
       end
 
-      def authorize_params
-        super.tap do |params|
-          params[:scopes] = 'calendar'
-        end
-      end
+      # def authorize_params
+      #   super.tap do |params|
+      #     params[:scopes] = 'calendar'
+      #   end
+      # end
     end
   end
 end
