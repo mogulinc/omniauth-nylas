@@ -22,12 +22,6 @@ module OmniAuth
           "provider"   => access_token.params["provider"]
         }
       end
-
-      # def authorize_params
-      #   super.tap do |params|
-      #     params[:scopes] = 'calendar'
-      #   end
-      # end
     end
   end
 end
