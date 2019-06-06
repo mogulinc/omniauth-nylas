@@ -25,7 +25,7 @@ module OmniAuth
 
       def authorize_params
         super.tap do |params|
-          params[:scope] = 'calendar'
+          params[:scopes] = 'calendar'
         end
       end
     end
